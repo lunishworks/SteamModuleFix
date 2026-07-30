@@ -1,0 +1,29 @@
+name: Build SteamModuleFix
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # Allows you to manually trigger the build from the Actions tab
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build Solution (Release x64)
+      run: msbuild SteamModuleFix.slnx /p:Configuration=Release /p:Platform=x64
+
+    - name: Upload DLL Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SteamModuleFix-x64-Release
+        path: |
+          **/*.dll
