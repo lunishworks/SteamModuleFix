@@ -1,10 +1,10 @@
-name: Build SteamModuleFix
+name: Build Pandora Legacy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
@@ -12,21 +12,19 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Build Pandora Legacy
-      run: msbuild SteamModuleFix.slnx /p:Configuration="Pandora Legacy" /p:Platform=x64
+    - name: Build Pandora Legacy (x64)
+      run: |
+        msbuild PandoraSteamModule.vcxproj /p:Configuration="Pandora Legacy" /p:Platform="x64"
 
-    - name: Build Pandora Desync
-      run: msbuild SteamModuleFix.slnx /p:Configuration="Pandora Desync" /p:Platform=x64
-
-    - name: Upload Output DLLs
+    - name: Upload Output Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: SteamModuleFix-Pandora
+        name: Pandora-Legacy-x64
         path: |
-          **/*.dll
+          Dll/*.dll
