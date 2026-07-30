@@ -20,7 +20,7 @@ jobs:
 
     - name: Build Pandora Legacy (x64)
       run: |
-        msbuild PandoraSteamModule.vcxproj /p:Configuration="Pandora Legacy" /p:Platform="x64"
+        msbuild SteamModuleFix/SteamModuleFix.vcxproj /p:Configuration="Pandora Legacy" /p:Platform="x64"
 
     - name: Upload Output Artifacts
       uses: actions/upload-artifact@v4
