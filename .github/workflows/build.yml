@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  workflow_dispatch: # Allows you to manually trigger the build from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,12 +18,15 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Build Solution (Release x64)
-      run: msbuild SteamModuleFix.slnx /p:Configuration=Release /p:Platform=x64
+    - name: Build Pandora Legacy
+      run: msbuild SteamModuleFix.slnx /p:Configuration="Pandora Legacy" /p:Platform=x64
 
-    - name: Upload DLL Artifact
+    - name: Build Pandora Desync
+      run: msbuild SteamModuleFix.slnx /p:Configuration="Pandora Desync" /p:Platform=x64
+
+    - name: Upload Output DLLs
       uses: actions/upload-artifact@v4
       with:
-        name: SteamModuleFix-x64-Release
+        name: SteamModuleFix-Pandora
         path: |
           **/*.dll
